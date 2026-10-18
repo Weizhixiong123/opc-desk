@@ -1,0 +1,36 @@
+Use case: ui-mockup / precise UI revision.
+EDIT THE PROVIDED REFERENCE IMAGE: the original lime-green rounded-card OPC 账本 收支概览 desktop dashboard. It is the correct baseline. Preserve its visual style: pale gray-green background, white rounded cards, lime accent and buttons, green income numbers, left sidebar, top search field, top-right avatar, forest green text, clean Chinese sans-serif. DO NOT use the subsequently generated traditional Chinese ledger design. This is a targeted revision of the supplied rounded-card screenshot.
+Produce one polished desktop screen, landscape aspect ratio matching the reference, clear legible Chinese typography, seamless coherent layout. You may slightly rebalance space to fit requested new information, but preserve overall styling and existing content unless explicitly changed below.
+
+NAVIGATION:
+1. Sidebar remains same width and branding OPC 账本 / 一人公司工作台 with 我的工作台 workspace area. Introduce heading 记账 above navigation 概览 (selected lime tint), 流水, 分类. Below that a reserved 其他模块 grouping containing 客户 and 发票, both quiet gray text but visibly usable links (not disabled controls). Move 设置 to very bottom of sidebar. Delete the old sidebar footer slogan entirely.
+2. Top breadcrumb EXACTLY 工作台 / 记账 / 概览.
+3. Top search placeholder EXACTLY 搜索, with Ctrl K keyboard shortcut hint at right edge within input. Preserve settings icon and upper-right avatar.
+4. Main heading 收支概览, supporting text to its right EXACTLY 已记 17 天，共 27 笔. Replace old slogan.
+5. ONLY ONE month picker ‹ 2026年10月 ›, in page heading area. Remove month picker from calendar card. Keep lime header button ＋ 记一笔.
+
+SUMMARY CARDS:
+6. Three cards same top row. Make 本月净收支 card WIDER, about44% of row, pale lime tint and amount substantially larger. Other two cards each about28%, white.
+7. Exact monthly metrics: 本月净收支 ¥32,580.00 with small comparison 比上月 +18%; 本月收入 ¥48,600.00 with small comparison 比上月 +12%; 本月支出 ¥16,020.00 with small comparison 比上月 −5%. Green income digits; expense deep charcoal; emphasize net figure hierarchy. Small comparison lines below each amount, no invented comparison amounts.
+
+MAIN CALENDAR AND DETAIL GRID:
+Large calendar white card at left about70% content width, selected-day panel at right about30%. Do not overlap cards.
+8. Calendar title 收支日历. Immediately next to it a segmented control 日历｜趋势｜分类, 日历 selected in light lime. No second month picker.
+9. On the SAME calendar title row at right display 单位：元. Under heading retain quiet text 按实际收付款日期记录 if space allows, and legend 收入 / 支出 with SMALL SQUARE swatches, not circular dots. Income green, expense deep gray.
+10. Correct October2026 Sunday-first calendar 日 一 二 三 四 五 六. First row four empty slots then1,2,3. Second4–10, third11–17, fourth18–24, fifth25–31. Keep airy white/light gray neutral cell backgrounds and modest soft corners as in baseline.
+11. Each past date cell shows date at top, then separate income and expense rows, labeled 收 and 支 only when a real nonzero amount exists. EMPTY rows for zero/no occurrence: do NOT display 收 —, 支 —, zero, or a placeholder dash. Income digits remain green, expense digits change to DARK GRAY for readability. All amounts RIGHT ALIGNED with tabular/monospaced digits. Data format can omit yuan symbol because unit label is above. Preserve each amount below.
+12. Today17: date numeral17 placed on a GREEN CIRCULAR BACKGROUND, no dot at upper-right. Selected16: entire cell has GREEN THIN OUTLINE. The today circle and selected outline are clearly different. No other selection markers.
+13. Future dates18–31 in LIGHT GRAY date numerals, interiors blank.
+14. Calendar footer small gray text 已记录 17 天，共 27 笔。点击日期，查看当天流水。 This can remain as guidance.
+
+DAILY DATA (income/expense, zero means blank line):
+1 2400/400; 2 0/680; 3 0/120; 4 4000/400; 5 2400/600; 6 0/320; 7 3200/800; 8 5200/1000; 9 0/500; 10 2000/500; 11 0/800; 12 3000/900; 13 0/2400; 14 4000/400; 15 0/680; 16 12800/680; 17 9600/4840.
+These are unchanged from the original reference. Monthly income48600, expense16020 and net32580.
+
+RIGHT PANEL:
+15. Heading10月16日 星期五, keep 当日收入 ¥12,800.00 and 当日支出 ¥680.00 summary boxes; plain 净收支 ¥12,120.00 below.
+16. Heading 当日流水 · 2笔. Two transactions retaining original small icons: primary 品牌官网项目尾款, subtitle 服务收入, income ¥12,800.00 green; primary 云服务器续费, subtitle 服务器/云, expense ¥680.00 dark gray. REMOVE ALL timestamps, including14:30 and09:20. No time text anywhere in entries.
+17. Under these two entries add a compact subtle section 本月支出前三 with three rows and THIN progress tracks/bars: 广告推广 3,300.00; 外包 2,400.00; 服务器/云 1,360.00. Proportional thin lime/forest-green bars, restrained gray tracks. This section fits without crushing transaction typography. These three user-specified ranking values must be rendered EXACTLY, without changing monthly expense total or calendar data.
+18. At panel bottom quiet 查看当天流水 link may remain. Replace bottom lime button with EXACT label ＋ 给 10 月 16 日记一笔. Keep the header's generic ＋ 记一笔 unchanged. The date-specific button should fit the panel width cleanly without truncation.
+
+CONSTRAINTS: Apply ALL18 requested changes accurately. Preserve rounded-card lime style of the provided reference. One complete screenshot, no device mockup, no additional mobile image. No traditional red square seal or Chinese ruled ledger aesthetic. No dark theme, no extra widgets, no novel modules beyond the requested labels. Chinese text sharp and readable. Ensure no dash rows inside empty calendar amounts, no green dot on17, no calendar month picker, no old slogan, no transaction time stamps.

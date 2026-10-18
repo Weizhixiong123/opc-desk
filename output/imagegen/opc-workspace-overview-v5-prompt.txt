@@ -1,0 +1,32 @@
+Precisely edit the provided OPC 账本 收支概览 desktop dashboard. Preserve entire design, layout, sidebar, toolbar, avatar, search, monthly totals, right detail panel, date markers and button labels. ONLY correct the calendar metric semantics.
+GREEN PRIMARY FIGURES IN CALENDAR MUST REPRESENT GROSS INCOME, NOT NET CASH FLOW. Green shading must likewise represent income volume. Net cash flow remains ONLY in top summary 本月净收支 ¥32,580.00 and right selected-day 净收支 ¥12,120.00, both unchanged. Monthly income ¥48,600.00, expense ¥16,020.00 unchanged. Right Oct16 income ¥12,800.00 and expense ¥680.00 unchanged.
+
+Calendar header title 收支日历 and segmented 日历｜趋势｜分类 unchanged. Replace subtitle 当日净收支 = 收入 − 支出 with EXACTLY 按实际收付款日期记录. Replace calendar green square legend 净收支 with 收入. Gray square legend 支出 unchanged. Unit 元 unchanged.
+Within each cell, date stays at top left. Main numeric row directly under date is GREEN semibold16px-equivalent GROSS INCOME, no 收 prefix, no plus or minus sign, no currency symbol. Bottom row regular12px-equivalent gray explicitly says 支出 followed by amount (no minus sign), e.g. 支出 680. Both lines LEFT ALIGNED. Zero income means primary numeric row is completely EMPTY. Thus dates with only expense have NO red number and NO primary number; they show their date and gray 支出 amount on bottom line. Remove ALL red negative net numbers from calendar. Do not turn an expense into income.
+
+EXACT CALENDAR DATA (green income primary / gray expense bottom):
+1: 2,400 / 支出400
+2: EMPTY / 支出680
+3: EMPTY / 支出120
+4: 4,000 / 支出400
+5: 2,400 / 支出600
+6: EMPTY / 支出320
+7: 3,200 / 支出800
+8: 5,200 / 支出1,000
+9: EMPTY / 支出500
+10: 2,000 / 支出500
+11: EMPTY / 支出800
+12: 3,000 / 支出900
+13: EMPTY / 支出2,400
+14: 4,000 / 支出400
+15: EMPTY / 支出680
+16: 12,800 / 支出680
+17: 9,600 / 支出4,840
+Spacing between 支出 and amount, e.g. 支出 400. All digits tabular and comma separated. No duplicate amount rows, no net figures in calendar.
+Three light GREEN cell-fill tiers based on income, not net:
+income1–2999 #F0FAEC dates1,5,10.
+income3000–5999 #E2F4D8 dates4,7,8,12,14.
+income6000+ #CAEAAF dates16,17.
+No-income dates2,3,6,9,11,13,15 WHITE, no red or green fill. Future18–31 white with light-gray date numbers and empty interior. Leading empty slots neutral as original.
+Preserve green circular date marker17 and green whole-cell outline16. Preserve October2026 Sunday-first placement, all calendar footer guidance and all non-calendar elements. Income totals still48,600, expenses16,020. Day16 main number MUST12,800 not12,120; day17 MUST9,600 not4,760; day1 MUST2,400 not2,000. Green consistently means income everywhere.
+Output one seamless landscape UI screenshot matching reference proportions. Preserve pale gray-green backdrop, white rounded cards, lime accents and green income. No new panels, no traditional ledger style, no red financial figures within the calendar.

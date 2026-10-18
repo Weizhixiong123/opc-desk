@@ -1,0 +1,11 @@
+.env
+.env.*
+!.env.example
+data
+node_modules
+.git
+*.md
+.github
+docker-compose*.yml
+env.production.example
+update.sh

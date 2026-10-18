@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f7f5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f1712" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="工作台">
+  <title>个人工作台</title>
+  <link rel="icon" href="__BASE__/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="__BASE__/icon.svg">
+  <link rel="manifest" href="__BASE__/manifest.webmanifest">
+  <link rel="preload" href="__BASE__/jakarta.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="__BASE__/app.css">
+</head>
+<body>
+  <!-- 图标：线性风格，全站共用 -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M12 20V11"/><path d="M12 11C12 7 9 4.5 5 4.5c0 4 2.5 6.5 7 6.5z"/><path d="M12 13c0-4 3-6.5 7-6.5 0 4-2.5 6.5-7 6.5z"/></symbol>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></symbol>
+      <symbol id="i-task" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="m8.5 12 2.5 2.5 4.5-5"/></symbol>
+      <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24"><path d="M3 5h6a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H3z"/><path d="M21 5h-6a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h7z"/></symbol>
+      <symbol id="i-sched" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M9 14.5l2 2 4-4"/></symbol>
+      <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h8l5 5v12a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5"/></symbol>
+      <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M12 12.5v5M10 14h3a1 1 0 0 1 0 2h-2a1 1 0 0 0 0 2h3"/></symbol>
+      <symbol id="i-list" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></symbol>
+      <symbol id="i-pie" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9h-9z"/><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"/></symbol>
+      <symbol id="i-plus-c" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></symbol>
+      <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+      <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+      <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></symbol>
+      <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+      <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z"/></symbol>
+      <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6.5" y="6.5" width="11" height="11" rx="2"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- 登录 -->
+  <section id="login" class="login" hidden>
+    <form id="login-form" class="login-card">
+      <div class="brand"><span class="brand-mark"><svg class="ic"><use href="#i-leaf"/></svg></span><b>个人工作台</b></div>
+      <h1>登录</h1>
+      <label class="field"><span>密码</span><input id="login-pw" class="inp" type="password" autocomplete="current-password" required></label>
+      <button class="btn dark block" type="submit">登录</button>
+      <p id="login-err" class="err" role="alert"></p>
+    </form>
+  </section>
+
+  <div id="app" class="shell" hidden>
+    <aside class="side">
+      <div class="brand"><span class="brand-mark"><svg class="ic"><use href="#i-leaf"/></svg></span><b>个人工作台</b></div>
+      <button class="me-card" data-view="settings" title="个人资料">
+        <span class="avatar" data-avatar></span>
+        <span class="me-text"><b data-profile-name></b><small data-profile-title></small></span>
+      </button>
+
+      <button class="nav" data-view="home"><svg class="ic"><use href="#i-home"/></svg>总览</button>
+      <button class="nav" data-view="tasks"><svg class="ic"><use href="#i-task"/></svg>我的任务<span class="nav-count" id="nav-task-count"></span></button>
+
+      <div class="nav-group">记账</div>
+      <button class="nav" data-view="ledger"><svg class="ic"><use href="#i-cal"/></svg>收支日历</button>
+      <button class="nav" data-view="entries"><svg class="ic"><use href="#i-list"/></svg>流水明细</button>
+      <button class="nav" data-view="categories"><svg class="ic"><use href="#i-pie"/></svg>分类</button>
+
+      <div class="nav-group">即将上线</div>
+      <button class="nav soon" data-soon="项目空间">项目空间</button>
+      <button class="nav soon" data-soon="日程安排">日程安排</button>
+      <button class="nav soon" data-soon="知识库">知识库</button>
+      <button class="nav soon" data-soon="文件管理">文件管理</button>
+
+      <button class="nav nav-bottom" data-view="settings"><svg class="ic"><use href="#i-gear"/></svg>设置</button>
+    </aside>
+
+    <div class="main">
+      <header class="head">
+        <div class="head-title">
+          <h1 id="head-title"></h1>
+          <p id="head-sub"></p>
+        </div>
+        <div class="head-tools">
+          <label class="search">
+            <svg class="ic"><use href="#i-search"/></svg>
+            <input id="global-search" type="search" placeholder="搜索流水" aria-label="搜索流水">
+            <span class="kbd"><span>Ctrl</span><span>K</span></span>
+          </label>
+          <button class="btn dark" data-add><svg class="ic"><use href="#i-plus"/></svg>记一笔</button>
+          <button class="avatar avatar-btn" data-avatar data-view="settings" aria-label="设置与个人资料"></button>
+        </div>
+      </header>
+
+      <!-- ===== 总览 ===== -->
+      <section id="view-home" class="view home" hidden>
+        <!-- 今天：整页唯一的深色块，放每天都会用的专注计时 -->
+        <div class="today-panel">
+          <div class="today-top">
+            <h2>今天的专注</h2>
+            <div class="focus-ctrl" id="focus-idle">
+              <div class="kind" id="focus-kind" role="group" aria-label="专注类型">
+                <button data-kind="deep" class="on" aria-pressed="true">深度工作</button>
+                <button data-kind="other" aria-pressed="false">其他</button>
+              </div>
+              <button class="start-btn" id="focus-start"><svg class="ic"><use href="#i-play"/></svg>开始计时</button>
+            </div>
+            <div class="focus-ctrl" id="focus-running" hidden>
+              <span class="live"><i></i><span id="focus-kind-label"></span><b class="n" id="focus-clock">00:00</b></span>
+              <button class="stop-btn" id="focus-stop"><svg class="ic"><use href="#i-stop"/></svg>结束</button>
+            </div>
+          </div>
+          <div class="today-body">
+            <div class="today-num">
+              <b class="n" id="focus-today">0</b><span>小时</span>
+              <p id="focus-vs"></p>
+            </div>
+            <div class="week">
+              <div class="week-bars" id="focus-bars"></div>
+              <div class="week-days" id="focus-days"></div>
+            </div>
+          </div>
+          <p class="today-foot" id="focus-week"></p>
+        </div>
+
+        <button class="card month-card" data-view="ledger" aria-label="打开收支日历">
+          <span class="month-head"><b id="home-month"></b><span class="link-text">收支日历</span></span>
+          <span class="month-net"><small>净收入</small><b class="n" id="home-net"></b></span>
+          <span class="month-split">
+            <span><small>收入</small><b class="n inc" id="home-inc"></b></span>
+            <span><small>支出</small><b class="n" id="home-exp"></b></span>
+          </span>
+          <span class="month-top">
+            <small>支出最多</small>
+            <span class="mini-bars" id="home-top3"></span>
+          </span>
+          <span class="month-daily">
+            <small>每天收支</small>
+            <span class="daily" id="home-daily" aria-hidden="true"></span>
+            <span class="daily-axis"><span>1日</span><span id="home-daily-mid"></span><span id="home-daily-end"></span></span>
+          </span>
+        </button>
+
+        <div class="card tasks-card">
+          <div class="row-between"><h2>今日任务</h2><button class="link-text" data-view="tasks" id="home-task-link">全部任务</button></div>
+          <div id="home-tasks"></div>
+          <form class="quick-add" id="home-task-add">
+            <svg class="ic"><use href="#i-plus"/></svg>
+            <input id="home-task-title" maxlength="100" placeholder="添加今天的任务，回车保存" aria-label="添加今天的任务">
+          </form>
+        </div>
+
+        <div class="card recent-card">
+          <div class="row-between"><h2>最近流水</h2><button class="link-text" data-view="entries">全部流水</button></div>
+          <div id="home-recent"></div>
+        </div>
+
+        <div class="card soon-card">
+          <h2>还在做的模块</h2>
+          <ul class="soon-list">
+            <li><b>项目空间</b><span>每个项目的客户、截止日期和里程碑</span></li>
+            <li><b>日程安排</b><span>按周排开会议和工作时段</span></li>
+            <li><b>知识库</b><span>报价思路、上线清单这类笔记</span></li>
+            <li><b>文件管理</b><span>合同、发票、设计稿按文件夹放好</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ===== 我的任务 ===== -->
+      <section id="view-tasks" class="view tasks-view" hidden>
+        <div class="card tasks-main">
+          <div class="seg" id="task-filter">
+            <button data-filter="all" class="on">全部 <span></span></button>
+            <button data-filter="today">今天 <span></span></button>
+            <button data-filter="upcoming">即将到来 <span></span></button>
+            <button data-filter="done">已完成 <span></span></button>
+          </div>
+          <form class="task-add" id="task-add">
+            <input class="inp" id="ta-title" maxlength="100" placeholder="添加新任务，回车保存" aria-label="任务名称" required>
+            <select class="inp" id="ta-tag" aria-label="类型"></select>
+            <input class="inp" id="ta-date" type="date" aria-label="日期" required>
+            <span class="time-pair">
+              <input class="inp" id="ta-start" type="time" aria-label="开始时间（可不填）">
+              <span>至</span>
+              <input class="inp" id="ta-end" type="time" aria-label="结束时间（可不填）">
+            </span>
+            <button class="btn dark" type="submit">添加</button>
+          </form>
+          <div id="task-list"></div>
+        </div>
+        <aside class="card tasks-side">
+          <h2>任务概况</h2>
+          <div class="today-box">
+            <span>今日完成</span>
+            <b class="n" id="ts-today"></b>
+            <span class="track"><i id="ts-today-bar"></i></span>
+          </div>
+          <div class="day-tiles">
+            <div class="tile"><span>未完成</span><b class="n" id="ts-open"></b></div>
+            <div class="tile"><span>本周已完成</span><b class="n" id="ts-week"></b></div>
+          </div>
+          <div class="sec-label">没完成的，按类型</div>
+          <ul class="mini-bars" id="ts-tags"></ul>
+        </aside>
+      </section>
+
+      <!-- ===== 收支日历 ===== -->
+      <section id="view-ledger" class="view" hidden>
+        <div class="lsum">
+          <div class="sum-strip">
+            <div class="sum-cell net"><span>本月净收入</span><b class="mid n" id="sum-net"></b></div>
+            <div class="sum-cell"><span>收入</span><b class="mid n inc" id="sum-inc"></b></div>
+            <div class="sum-cell"><span>支出</span><b class="mid n" id="sum-exp"></b></div>
+          </div>
+          <div class="month-switch" data-month-switch>
+            <button data-shift="-1" aria-label="上个月"><svg class="ic"><use href="#i-left"/></svg></button>
+            <button data-period-label title="回到本月"></button>
+            <button data-shift="1" aria-label="下个月"><svg class="ic"><use href="#i-right"/></svg></button>
+          </div>
+        </div>
+        <div class="lbody">
+          <div class="card cal-card">
+            <div class="row-between card-head wrap">
+              <div class="title-line"><h2>收支日历</h2><span class="muted">点击日期查看当天流水</span></div>
+              <span class="legend"><span><i class="sq inc"></i>收入</span><span><i class="sq exp"></i>支出</span><span>单位：元</span></span>
+            </div>
+            <div class="weekdays"><span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span></div>
+            <div class="cal" id="cal"></div>
+          </div>
+          <div class="ledger-side">
+          <aside class="card day-card" id="day-card">
+            <div class="title-line"><h2 id="day-date"></h2><span class="muted" id="day-week"></span></div>
+            <div class="day-tiles">
+              <div class="tile inc"><span>当日收入</span><b class="n" id="day-inc"></b></div>
+              <div class="tile"><span>当日支出</span><b class="n" id="day-exp"></b></div>
+            </div>
+            <div class="sec-label" id="day-count"></div>
+            <div class="day-list" id="day-list"></div>
+            <div class="top3-wrap">
+              <div class="sec-label">本月支出前三</div>
+              <ul class="mini-bars" id="top3"></ul>
+            </div>
+            <button class="btn accent block" id="day-add"><svg class="ic"><use href="#i-plus"/></svg><span id="day-add-text">记一笔</span></button>
+          </aside>
+          <div class="card big-card">
+            <h2>本月大额流水</h2>
+            <div id="big-list"></div>
+          </div>
+        </div>
+        </div>
+      </section>
+
+      <!-- ===== 流水明细 ===== -->
+      <section id="view-entries" class="view" hidden>
+        <div class="card">
+          <div class="filters">
+            <div class="seg" id="entry-type">
+              <button data-type="" class="on">全部</button>
+              <button data-type="income">收入</button>
+              <button data-type="expense">支出</button>
+            </div>
+            <span class="chip-filter" id="day-filter" hidden><span id="day-filter-text"></span><button aria-label="看整月"><svg class="ic"><use href="#i-x"/></svg></button></span>
+            <span class="chip-filter" id="kw-filter" hidden><span id="kw-filter-text"></span><button aria-label="清除搜索"><svg class="ic"><use href="#i-x"/></svg></button></span>
+            <input id="entry-search" class="inp entry-search" type="search" placeholder="搜索说明或分类">
+            <div class="month-switch small" data-month-switch>
+              <button data-shift="-1" aria-label="上个月"><svg class="ic"><use href="#i-left"/></svg></button>
+              <button data-period-label title="回到本月"></button>
+              <button data-shift="1" aria-label="下个月"><svg class="ic"><use href="#i-right"/></svg></button>
+            </div>
+          </div>
+          <div class="entry-totals" id="entry-totals"></div>
+          <div id="entry-list"></div>
+        </div>
+        <aside class="card entries-side">
+          <h2>按分类</h2>
+          <div class="sec-label">支出</div>
+          <ul class="mini-bars" id="entries-cat-exp"></ul>
+          <div class="sec-label">收入</div>
+          <ul class="mini-bars inc-bars" id="entries-cat-inc"></ul>
+        </aside>
+      </section>
+
+      <!-- ===== 分类 ===== -->
+      <section id="view-categories" class="view cats-view" hidden>
+        <div class="cats-col">
+          <div class="card">
+            <h2>本月支出</h2>
+            <ul class="bars" id="cat-bars-exp"></ul>
+          </div>
+          <div class="card">
+            <h2>本月收入</h2>
+            <ul class="bars inc-bars" id="cat-bars-inc"></ul>
+          </div>
+          <div class="card">
+            <div class="row-between"><h2>近 12 个月</h2><span class="legend"><span><i class="sq inc"></i>收入</span><span><i class="sq exp"></i>支出</span></span></div>
+            <div class="months" id="cat-months"></div>
+          </div>
+        </div>
+        <div class="cats-col">
+          <div class="card">
+            <div class="row-between card-head"><h2>收入分类</h2><button class="btn small" data-add-cat="income"><svg class="ic"><use href="#i-plus"/></svg>添加</button></div>
+            <ul class="cat-list" id="cats-income"></ul>
+          </div>
+          <div class="card">
+            <div class="row-between card-head"><h2>支出分类</h2><button class="btn small" data-add-cat="expense"><svg class="ic"><use href="#i-plus"/></svg>添加</button></div>
+            <ul class="cat-list" id="cats-expense"></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 设置 ===== -->
+      <section id="view-settings" class="view settings" hidden>
+        <div class="card">
+          <h2>个人资料</h2>
+          <div class="profile-row">
+            <span class="avatar lg" data-avatar></span>
+            <div class="profile-text">
+              <b data-profile-name></b><small data-profile-sub></small>
+              <span class="avatar-actions">
+                <label class="btn small">上传头像<input type="file" id="avatar-file" accept="image/png,image/jpeg,image/webp" hidden></label>
+                <button class="btn small" id="avatar-remove" hidden>移除头像</button>
+              </span>
+            </div>
+          </div>
+          <label class="field col">名字<input class="inp" id="s-name" maxlength="20" placeholder="例如：David"></label>
+          <label class="field col">身份<input class="inp" id="s-title" maxlength="20" placeholder="例如：独立开发"></label>
+          <label class="field col">首页副标题（留空则显示日期）<input class="inp" id="s-motto" maxlength="60"></label>
+          <p class="hint">改完离开输入框就会保存，侧边栏和首页问候语会跟着变。</p>
+        </div>
+        <div class="card">
+          <h2>偏好设置</h2>
+          <div class="sec-label">主题色</div>
+          <div class="swatches" id="swatches"></div>
+          <div class="pref-row">
+            <span><b>首页隐藏金额</b><small>总览页用 **** 代替收入金额</small></span>
+            <button class="switch" role="switch" aria-checked="false" aria-label="首页隐藏金额" id="s-hide"><i></i></button>
+          </div>
+        </div>
+        <div class="card">
+          <h2>导出记账数据</h2>
+          <p class="hint">导出成 CSV，用 Excel 直接打开。支出记为负数。</p>
+          <div class="row-btns">
+            <a class="btn" id="export-period" download>导出本月</a>
+            <a class="btn" id="export-year" download>导出今年</a>
+            <a class="btn" id="export-all" download>导出全部</a>
+          </div>
+        </div>
+        <div class="card">
+          <h2>账号</h2>
+          <p class="hint">登录密码在服务器的 .env 里设置（LOGIN_PASSWORD）。退出后要重新输入密码。</p>
+          <div class="row-btns"><button class="btn danger" id="logout">退出登录</button></div>
+        </div>
+      </section>
+    </div>
+
+    <button class="fab" data-add aria-label="记一笔"><svg class="ic"><use href="#i-plus"/></svg></button>
+    <nav class="tabbar">
+      <button data-view="home"><svg class="ic"><use href="#i-home"/></svg>总览</button>
+      <button data-view="tasks"><svg class="ic"><use href="#i-task"/></svg>任务</button>
+      <button data-view="ledger"><svg class="ic"><use href="#i-cal"/></svg>收支</button>
+      <button data-view="entries"><svg class="ic"><use href="#i-list"/></svg>流水</button>
+      <button data-view="settings"><svg class="ic"><use href="#i-gear"/></svg>设置</button>
+    </nav>
+  </div>
+
+  <!-- 记一笔 / 修改 -->
+  <div id="sheet" class="modal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <form id="entry-form" class="dialog" role="dialog" aria-modal="true" aria-labelledby="sheet-title" autocomplete="off">
+      <div class="row-between">
+        <h2 id="sheet-title">记一笔</h2>
+        <button type="button" class="icon-btn" data-close aria-label="关闭"><svg class="ic"><use href="#i-x"/></svg></button>
+      </div>
+      <div class="tabs2" id="form-type">
+        <button type="button" data-type="income">收入</button>
+        <button type="button" data-type="expense" class="on">支出</button>
+      </div>
+      <label class="field col">金额（元）
+        <input id="f-amount" class="inp amount n" inputmode="decimal" placeholder="0.00" required aria-describedby="f-upper">
+      </label>
+      <p id="f-upper" class="upper"></p>
+      <label class="field col">说明<input id="f-note" class="inp" maxlength="500"></label>
+      <div class="field col">分类<div id="f-cats" class="chips"></div></div>
+      <label class="field col">日期<input id="f-date" class="inp" type="date" required></label>
+      <p id="form-err" class="err" role="alert"></p>
+      <div class="dialog-foot">
+        <button type="button" class="btn" data-close>取消</button>
+        <button type="submit" class="btn dark">保存</button>
+      </div>
+      <button type="button" class="btn danger block-sm" id="f-delete" hidden>删除这笔</button>
+    </form>
+  </div>
+
+  <div id="task-sheet" class="modal" hidden>
+    <div class="modal-backdrop" data-task-close></div>
+    <form id="task-form" class="dialog" role="dialog" aria-modal="true" aria-labelledby="task-sheet-title" autocomplete="off">
+      <div class="row-between">
+        <h2 id="task-sheet-title">修改任务</h2>
+        <button type="button" class="icon-btn" data-task-close aria-label="关闭"><svg class="ic"><use href="#i-x"/></svg></button>
+      </div>
+      <label class="field col">任务<input class="inp" id="tf-title" maxlength="100" required></label>
+      <div class="field col">类型<div class="chips" id="tf-tags"></div></div>
+      <label class="field col">日期<input class="inp" id="tf-date" type="date" required></label>
+      <div class="time-row">
+        <label class="field col">开始（可不填）<input class="inp" id="tf-start" type="time"></label>
+        <label class="field col">结束<input class="inp" id="tf-end" type="time"></label>
+      </div>
+      <p id="tf-err" class="err" role="alert"></p>
+      <div class="dialog-foot">
+        <button type="button" class="btn" data-task-close>取消</button>
+        <button type="submit" class="btn dark">保存</button>
+      </div>
+      <button type="button" class="btn danger block-sm" id="tf-delete">删除这个任务</button>
+    </form>
+  </div>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script>window.BASE = '__BASE__';</script>
+  <script src="__BASE__/app.js"></script>
+</body>
+</html>

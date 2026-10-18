@@ -1,0 +1,28 @@
+Precisely edit the provided existing OPC 账本 收支概览 desktop dashboard. Preserve the complete page layout, sidebar, header, search, avatar, monthly cards and totals, buttons, right-hand selected-day detail panel and spending ranking. Only revise the calendar metric and its explanatory legend/background mapping.
+
+IMPORTANT: the PRIMARY figure inside EVERY past date cell must now be DAILY NET CASH FLOW (income minus expense), NOT gross income. Call this 净收支, not 净盈利 or profit. Below it display explicitly 支出 followed by the expense amount WITHOUT a minus sign, so users will not subtract it again. Both lines LEFT ALIGNED. Net amount directly below date, 16px-equivalent semibold, positive green #078447, negative muted red #C23B2E. Bottom line 12px-equivalent regular gray, exact wording 支出 400 for example. No income line, no 收 or 收入 prefix, no currency symbol in cells. Comma-group numerals, no decimals in cells. On days with only expense, still show BOTH negative net amount and clearly labeled expense.
+
+Exact replacement calendar content, primary NET / subordinate EXPENSE:
+1 net2,000 / 支出400
+2 net−680 / 支出680
+3 net−120 / 支出120
+4 net3,600 / 支出400
+5 net1,800 / 支出600
+6 net−320 / 支出320
+7 net2,400 / 支出800
+8 net4,200 / 支出1,000
+9 net−500 / 支出500
+10 net1,500 / 支出500
+11 net−800 / 支出800
+12 net2,100 / 支出900
+13 net−2,400 / 支出2,400
+14 net3,600 / 支出400
+15 net−680 / 支出680
+16 net12,120 / 支出680
+17 net4,760 / 支出4,840.
+The net figures sum32,580 and expenses sum16,020, matching unchanged monthly summary totals. Selected Oct16 right-side income remains12,800 and expense680 and net12,120. This distinction is critical.
+
+Update calendar explanatory subtitle to 当日净收支 = 收入 − 支出. Change header legend from 收入 / 支出 to 净收支 / 支出, preserving small square swatches and green/gray meanings. Calendar header keeps 收支日历, 日历｜趋势｜分类 segmented switch and 单位：元.
+Adjust cell backgrounds to follow POSITIVE NET amount, not gross income: net1–2,999 soft pale green #F0FAEC for days1,5,7,10,12; net3,000–5,999 slightly deeper #E2F4D8 for days4,8,14,17; net6,000+ deeper light green #CAEAAF for day16. All negative-net dates2,3,6,9,11,13,15 WHITE background, with negative net numeral red and gray expense text. No red cell fills. Day17 now medium tier, not darkest.
+Preserve today17 numeral on green circle and selected16 cell green outline. All date numerals remain their original styling, negative color is for net figure only. Future18–31 remain light-gray date numerals with empty interiors and white fill. Month placement Sunday-first October2026 identical. All other page pixels and copy as unchanged as possible. The income summary card still says 本月收入 and ¥48,600.00, do not change it to net.
+Single cohesive landscape image matching input size and original pale gray-green white-card lime SaaS design, no new widgets, no traditional ledger. Ensure ALL17 daily net amounts are correctly substituted, especially16 must become12,120 not12,800 and17 must become4,760 not9,600.

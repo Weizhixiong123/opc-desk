@@ -1,0 +1,36 @@
+Precisely edit the supplied existing OPC 账本 收支概览 desktop dashboard image. Preserve ALL layout, cards, navigation, sidebar, headings, search, avatar, summary amounts, right-hand detail panel, button labels, month picker, calendar selection and today marker, and every other element outside calendar-cell contents and fills. This is a targeted calendar cell visual hierarchy revision only.
+
+CALENDAR CELLS, REQUIRED NEW TYPOGRAPHY:
+Date remains at top left.
+Income is the PRIMARY information. Directly below the date, place income amount in GREEN, 16px-equivalent SEMIBOLD, LEFT ALIGNED. NO 收 prefix, no plus sign, no currency symbol. Tabular digits. Maintain sufficient vertical spacing between date and income.
+Expense goes on the BOTTOM line of the cell, LEFT ALIGNED, 12px-equivalent regular GRAY, prefixed by a minus sign −, e.g. −680. NO 支 prefix, no currency symbol. Expense line visually subordinate to income. Anchor it near the bottom with consistent padding. Both income and expense align to same left inset as date. Never right align these amounts.
+Zero income or zero expense means that line is blank, no dash or zero placeholder.
+
+CELL BACKGROUNDS:
+Only cells with POSITIVE income receive a light GREEN fill, three discreet tiers by INCOME AMOUNT, NOT by net income. Higher income means deeper pale green. Keep text legible and tasteful, not saturated:
+Tier1 income1–2,999 pale mint #F0FAEC: dates1 (2400),5 (2400),10 (2000).
+Tier2 income3,000–5,999 pale green #E2F4D8: dates4 (4000),7 (3200),8 (5200),12 (3000),14 (4000).
+Tier3 income6,000+ slightly deeper pale green #CAEAAF: dates16 (12800),17 (9600).
+All no-income dates2,3,6,9,11,13,15 stay PURE WHITE. Future dates18–31 white, muted light-gray date numerals and no amounts. Leading empty out-of-month cells neutral/white. No red fills.
+Preserve selected16's GREEN OUTLINE around cell, and today's17 numeral on GREEN CIRCLE, without a corner dot. Their background colors still follow tier3.
+
+EXACT DAILY CELL CONTENT (income shown when nonzero, expense preceded by −):
+1 income2,400 expense−400;
+2 no income expense−680;
+3 no income expense−120;
+4 income4,000 expense−400;
+5 income2,400 expense−600;
+6 no income expense−320;
+7 income3,200 expense−800;
+8 income5,200 expense−1,000;
+9 no income expense−500;
+10 income2,000 expense−500;
+11 no income expense−800;
+12 income3,000 expense−900;
+13 no income expense−2,400;
+14 income4,000 expense−400;
+15 no income expense−680;
+16 income12,800 expense−680;
+17 income9,600 expense−4,840.
+October2026 calendar placement and dates exactly unchanged, Sunday-first. Date1 underThursday,16 Friday,17 Saturday.
+Important: replace ALL old 收 and 支 row labels inside the calendar with the new hierarchy. Do not leave any 收/支 labels anywhere inside date cells. Calendar header legend 收入 and 支出 may remain. NO changes to right-hand transaction rows, income comparison or spending rank data. Do not redesign the page, do not introduce other panels or legends. Same landscape screenshot size and same visual style as input.

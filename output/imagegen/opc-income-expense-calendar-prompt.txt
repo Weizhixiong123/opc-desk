@@ -1,0 +1,33 @@
+Use case: ui-mockup
+Create a refined revised desktop UI design image for the existing Chinese project OPC 账本, a one-person company bookkeeping tool. This is a new iteration of the most recent generated calendar dashboard in this conversation. Use that dashboard as style and layout reference. The critical revision: this is a DAILY INCOME AND EXPENSE CALENDAR, not trading P&L. Remove the idea of winning/losing days entirely.
+Canvas: single crisp front-on desktop app screenshot, landscape 16:10, premium understated finance SaaS. Retain pale cool gray page #f5f7f4, white rounded cards, forest green #103c2f text, lime #b4ed7c primary action, delicate borders and restrained shadows. Chinese sans-serif similar to PingFang SC, beautiful finance number typography, excellent alignment, legible Chinese labels.
+Layout: narrow left sidebar about 190px, compact header, main area with a SHORT three-card monthly summary row, then a large daily calendar taking about 70% of main width and a selected-day detail panel taking about 30%.
+Sidebar: green square 账 logo, wordmark OPC 账本, subtitle 一人公司工作台, workspace 我的工作台 / 个人账本. Navigation 概览 (selected soft lime), 流水, 设置. Quiet footer 一个人的公司，一本清楚的账。
+Header: breadcrumb 工作台 / 概览, discreet 搜索流水 field, settings icon and avatar.
+Main title 收支概览, subtitle 每一笔收支，都有记录。, month control ‹ 2026年10月 ›, lime ＋ 记一笔 button.
+Three compact summary cards: 本月净收支 ¥32,580.00; 本月收入 ¥48,600.00; 本月支出 ¥16,020.00. No profits, losses, percentage changes, arrows of growth, badges of winning or losing, or trading language.
+Large calendar card title 收支日历, secondary caption 按实际收付款日期记录, month label 2026年10月, a small quiet two-item text legend 收入 (muted forest green dot) / 支出 (slate gray dot). Seven columns headings 日 一 二 三 四 五 六. Correct October 2026 grid: row 1 has four empty spaces then 1 2 3; row 2 is 4 5 6 7 8 9 10; row 3 is 11 12 13 14 15 16 17; row 4 is 18 19 20 21 22 23 24; row 5 is 25 26 27 28 29 30 31. All date cells have the SAME white or very light neutral gray background with gentle borders, no red cells or green cells based on result. Each past date has date number at top left and TWO small, clearly distinct, aligned text lines: 收 followed by an amount in muted forest green, 支 followed by an amount in neutral slate gray. Never show signed net numbers in calendar cells. Zero uses a muted em dash. No plus/minus signs for amounts, no red currency values. Dates 18–31 are future and show only a muted date number with blank space beneath, no entries. The four leading out-of-month slots are empty whitespace.
+Exact example data for 1–17, each formatted in two compact lines in the cell:
+1 收 2,400 / 支 400
+2 收 — / 支 680
+3 收 — / 支 120
+4 收 4,000 / 支 400
+5 收 2,400 / 支 600
+6 收 — / 支 320
+7 收 3,200 / 支 800
+8 收 5,200 / 支 1,000
+9 收 — / 支 500
+10 收 2,000 / 支 500
+11 收 — / 支 800
+12 收 3,000 / 支 900
+13 收 — / 支 2,400
+14 收 4,000 / 支 400
+15 收 — / 支 680
+16 收 12,800 / 支 680
+17 收 9,600 / 支 4,840
+The 17 days have total income 48,600 and total expenses 16,020, matching the top summary. Compact cell amounts need no currency symbol because a tiny caption above the grid says 单位：元. Ensure enough width so 12,800 and 4,840 fit on their own lines.
+October 16 is selected with a thin forest-green outline and faint neutral mint tint, solely indicating selection, not profitability. October 17 has a very small today dot next to its number.
+Calendar footer: small info icon and 点击日期，查看当天流水。 Right aligned quiet 已记录 17 天 · 共 27 笔. No count of profitable/losing days.
+Right card: heading 10月16日 with 星期五 and no profit/loss badge. At top two equal compact columns with small labels 当日收入 / 当日支出, amounts ¥12,800.00 / ¥680.00, income forest green, expense dark slate. Below a small neutral divider line 净收支 ¥12,120.00 in plain text, not a giant gain figure.
+Then 当日流水 · 2笔, two clean transaction rows. First: soft green line icon, 品牌官网项目尾款, 项目收入 · 14:30, 收入 ¥12,800.00. Second: neutral gray line icon, 云服务器续费, 软件订阅 · 09:20, 支出 ¥680.00. Carefully place labels and amounts in tidy stacked lines so no text overflows the narrow panel. Plenty of breathing room below, bottom 查看当天流水 → and lime ＋ 记一笔 button.
+Constraints: this must feel like a calm daily bookkeeping calendar for an independent business owner. Absolutely no 盈亏, 盈利, 亏损, 盈利日, 亏损日, trading visuals, red-green heatmap, stock chart, investment imagery, bank cards, exchange widgets, upgrade plans, or net signed amounts inside date cells. Show daily income and expense separately, not profit. Preserve overall visual continuity with previous OPC dashboard. One complete cohesive screen, no device frame, no extra variants or watermark. All data is illustrative.
