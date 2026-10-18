@@ -419,6 +419,21 @@
     </form>
   </div>
 
+  <!-- 通用的确认 / 输入弹窗，代替浏览器自带的 confirm、prompt -->
+  <div id="ask" class="modal ask" hidden>
+    <div class="modal-backdrop" data-ask-cancel></div>
+    <form id="ask-form" class="dialog ask-dialog" role="alertdialog" aria-modal="true" aria-labelledby="ask-title" aria-describedby="ask-text" autocomplete="off">
+      <h2 id="ask-title"></h2>
+      <p id="ask-text" class="ask-text"></p>
+      <label class="field col" id="ask-field"><b class="ask-label" id="ask-label"></b><input class="inp" id="ask-input"></label>
+      <p id="ask-err" class="err" role="alert"></p>
+      <div class="dialog-foot">
+        <button type="button" class="btn" data-ask-cancel>取消</button>
+        <button type="submit" class="btn dark" id="ask-ok"></button>
+      </div>
+    </form>
+  </div>
+
   <div id="toast" class="toast" role="status"></div>
 
   <script>window.BASE = '__BASE__';</script>

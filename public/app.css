@@ -574,6 +574,16 @@ button.link-text:hover, .month-card:hover .link-text { text-decoration: underlin
 .dialog-foot .btn { height: 46px; }
 .block-sm { width: 100%; }
 
+/* 确认 / 输入弹窗：叠在其他弹窗上面 */
+.modal.ask { z-index: 70; }
+.ask-dialog { max-width: 400px; gap: 12px; }
+.ask-text { margin: -4px 0 0; font-size: 14px; color: var(--muted); line-height: 1.6; }
+.ask-text:empty { display: none; }
+.ask-label { font-weight: 500; }
+.ask-dialog .err:empty { display: none; }
+.btn.red { background: var(--red); border-color: var(--red); color: #ffffff; font-weight: 700; }
+.btn.red:hover { filter: brightness(1.06); }
+
 .toast {
   position: fixed; left: 50%; bottom: calc(var(--tabbar-h) + 88px + env(safe-area-inset-bottom)); z-index: 60;
   transform: translate(-50%, 6px); opacity: 0; pointer-events: none; transition: .2s;

@@ -93,6 +93,53 @@ function replay(el, cls = 'swap') {
   el.classList.add(cls);
 }
 
+// 工作台自己的确认 / 输入弹窗。value 为 null 时只确认，返回 true/false；否则返回填的文字，取消返回 null
+let askDone = null;
+function ask({ title, text = '', label = '', value = null, okText = '确定', danger = false, maxLength = 20 }) {
+  const input = value !== null;
+  $('#ask-title').textContent = title;
+  $('#ask-text').textContent = text;
+  $('#ask-field').hidden = !input;
+  $('#ask-label').textContent = label;
+  $('#ask-input').value = input ? value : '';
+  $('#ask-input').maxLength = maxLength;
+  $('#ask-err').textContent = '';
+  $('#ask-ok').textContent = okText;
+  $('#ask-ok').className = `btn ${danger ? 'red' : 'dark'}`;
+  $('#ask').hidden = false;
+  setTimeout(() => {
+    if (input) {
+      $('#ask-input').focus();
+      $('#ask-input').select();
+    } else {
+      $('#ask-ok').focus();
+    }
+  }, 30);
+  return new Promise((resolve) => {
+    askDone = (ok) => {
+      $('#ask').hidden = true;
+      askDone = null;
+      resolve(input ? (ok ? $('#ask-input').value.trim() : null) : ok);
+    };
+  });
+}
+$('#ask-form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (!$('#ask-field').hidden && !$('#ask-input').value.trim()) {
+    $('#ask-err').textContent = '不能为空';
+    return;
+  }
+  askDone?.(true);
+});
+$$('[data-ask-cancel]').forEach((el) => el.addEventListener('click', () => askDone?.(false)));
+// Esc 先关最上面的确认弹窗，不连带关掉下面的记账弹窗
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && askDone) {
+    e.stopImmediatePropagation();
+    askDone(false);
+  }
+}, true);
+
 let toastTimer;
 function toast(msg) {
   const t = $('#toast');
@@ -270,7 +317,14 @@ document.addEventListener('click', async (e) => {
   const del = e.target.closest('[data-del]');
   if (del) {
     const r = entryCache.get(Number(del.dataset.del));
-    if (!r || !confirm(`删除「${r.note || r.category}」${money(r.type === 'income' ? r.amount : -r.amount)}？删除后不能恢复。`)) return;
+    if (!r) return;
+    const ok = await ask({
+      title: '删除这笔流水？',
+      text: `「${r.note || r.category}」${money(r.type === 'income' ? r.amount : -r.amount)}，删除后不能恢复。`,
+      okText: '删除',
+      danger: true,
+    });
+    if (!ok) return;
     try {
       await api(`/entries/${r.id}`, { method: 'DELETE' });
     } catch (err) {
@@ -626,7 +680,7 @@ document.addEventListener('click', async (e) => {
   const del = e.target.closest('[data-task-del]');
   if (del) {
     const t = state.tasks.find((x) => x.id === Number(del.dataset.taskDel));
-    if (t && confirm(`删除任务「${t.title}」？`)) deleteTask(t);
+    if (t && (await ask({ title: '删除这个任务？', text: `「${t.title}」，删除后不能恢复。`, okText: '删除', danger: true }))) deleteTask(t);
   }
 });
 // 勾选只重画任务部分，不重新拉总览的其他数据
@@ -696,8 +750,9 @@ $('#task-form').addEventListener('submit', async (e) => {
   await loadTasks();
   afterTaskChangeLocal();
 });
-$('#tf-delete').addEventListener('click', () => {
-  if (editingTask && confirm(`删除任务「${editingTask.title}」？`)) deleteTask(editingTask);
+$('#tf-delete').addEventListener('click', async () => {
+  if (!editingTask) return;
+  if (await ask({ title: '删除这个任务？', text: `「${editingTask.title}」，删除后不能恢复。`, okText: '删除', danger: true })) deleteTask(editingTask);
 });
 
 // ---- 收支日历 ----
@@ -955,22 +1010,23 @@ async function catAction(fn) {
   }
 }
 $$('[data-add-cat]').forEach((b) =>
-  b.addEventListener('click', () => {
-    const name = prompt(`新的${b.dataset.addCat === 'income' ? '收入' : '支出'}分类叫什么？`);
-    if (name?.trim()) catAction(() => api('/categories', { method: 'POST', body: { type: b.dataset.addCat, name } }));
+  b.addEventListener('click', async () => {
+    const kind = b.dataset.addCat === 'income' ? '收入' : '支出';
+    const name = await ask({ title: `添加${kind}分类`, label: '分类名', value: '', okText: '添加' });
+    if (name) catAction(() => api('/categories', { method: 'POST', body: { type: b.dataset.addCat, name } }));
   })
 );
-$('#view-categories').addEventListener('click', (e) => {
+$('#view-categories').addEventListener('click', async (e) => {
   const b = e.target.closest('[data-act]');
   if (!b) return;
   const c = state.categories.find((x) => x.id === Number(b.closest('li').dataset.id));
   if (!c) return;
   if (b.dataset.act === 'rename') {
-    const name = prompt('改成', c.name);
-    if (name?.trim() && name.trim() !== c.name) catAction(() => api(`/categories/${c.id}`, { method: 'PATCH', body: { name } }));
+    const name = await ask({ title: '修改分类名', text: `现在叫「${c.name}」，改名后以前的流水也会跟着显示新名字。`, label: '新名字', value: c.name, okText: '保存' });
+    if (name && name !== c.name) catAction(() => api(`/categories/${c.id}`, { method: 'PATCH', body: { name } }));
   } else if (b.dataset.act === 'archive') {
     catAction(() => api(`/categories/${c.id}`, { method: 'PATCH', body: { archived: !c.archived } }));
-  } else if (b.dataset.act === 'delete' && confirm(`删除分类「${c.name}」？有流水的分类只能停用。`)) {
+  } else if (b.dataset.act === 'delete' && (await ask({ title: '删除这个分类？', text: `「${c.name}」。已经有流水的分类不能删除，只能停用。`, okText: '删除', danger: true }))) {
     catAction(() => api(`/categories/${c.id}`, { method: 'DELETE' }));
   }
 });
@@ -1034,7 +1090,7 @@ $('#avatar-file').addEventListener('change', async (e) => {
   toast('头像已更新');
 });
 $('#avatar-remove').addEventListener('click', async () => {
-  if (!confirm('移除头像？会改回显示名字首字母。')) return;
+  if (!(await ask({ title: '移除头像？', text: '移除后显示名字的首字母，随时可以重新上传。', okText: '移除' }))) return;
   try {
     state.settings = await api('/avatar', { method: 'DELETE' });
   } catch (err) {
@@ -1138,7 +1194,8 @@ $('#entry-form').addEventListener('submit', async (e) => {
 });
 
 $('#f-delete').addEventListener('click', async () => {
-  if (!form.editing || !confirm('删除这笔账？删除后不能恢复。')) return;
+  if (!form.editing) return;
+  if (!(await ask({ title: '删除这笔流水？', text: '删除后不能恢复。', okText: '删除', danger: true }))) return;
   try {
     await api(`/entries/${form.editing.id}`, { method: 'DELETE' });
   } catch (err) {

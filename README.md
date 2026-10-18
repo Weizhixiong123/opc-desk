@@ -57,11 +57,11 @@ chmod +x update.sh && ./update.sh
 
 和 gpt-verify（`/sms`）用同一个 gptsuchong.com 站点，不用新建站点、不用新证书。`.env` 里已经是 `BASE_PATH=/desk`。
 
-打开站点 gptsuchong.com → 反向代理 → 添加：代理名称 `desk`，**代理目录 `/desk`**，目标 URL `http://127.0.0.1:3010`（后面不要加 `/desk` 或 `/`）。或者直接在站点的 nginx 配置里加：
+打开站点 gptsuchong.com → 反向代理 → 添加：代理名称 `desk`，**代理目录 `/desk`**，目标 URL `http://127.0.0.1:3020`（后面不要加 `/desk` 或 `/`）。或者直接在站点的 nginx 配置里加：
 
 ```nginx
 location /desk {
-    proxy_pass http://127.0.0.1:3010;
+    proxy_pass http://127.0.0.1:3020;
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -91,7 +91,7 @@ docker cp opc-desk:/app/data/backup.db ./opc-desk-$(date +%F).db
 |---|---|
 | `LOGIN_PASSWORD` | 必填。登录密码；改了之后所有设备要重新登录 |
 | `BASE_PATH` | 挂在子路径时填，例如 `/desk`；独立域名留空 |
-| `HOST_PORT` | 宿主机端口，默认 3010 |
+| `HOST_PORT` | 宿主机端口，默认 3020（服务器上 3010 是 gpt-verify） |
 | `TRUST_PROXY` | 在 nginx 后面设 1，按真实 IP 限制密码试错（10 次 / 15 分钟） |
 | `SECURE_COOKIE` | 走 HTTPS 设 1 |
 | `SESSION_DAYS` | 登录有效天数，默认 30 |
