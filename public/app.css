@@ -28,6 +28,8 @@
   --lv1: #f1faea; --lv2: #e4f5d3; --lv3: #d5efbd;
   --lv-bd1: #e2f2d4; --lv-bd2: #cfe9b6;
   --red: #c8352c;
+  --line-inc: #1f9d4c;      /* 每天收支折线：收入 */
+  --line-exp: #7a5bd0;      /* 每天收支折线：支出 */
   --red-soft: #fde8e6;
   --radius: 14px;
   --font: "Jakarta", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", sans-serif;
@@ -42,6 +44,7 @@
     --dark: #a3e36b; --dark-ink: #0f2a1a; --nav-on: #223a22; --green: #7fd69a; --green-dot: #6fd38f; --inc-soft: #1f3420;
     --lv1: #1b2a1d; --lv2: #213620; --lv3: #284525; --lv-bd1: #24372a; --lv-bd2: #2f4a2c;
     --red: #ff7a70; --red-soft: #3a1f1d;
+    --line-inc: #2f9e5a; --line-exp: #8068dc;
     color-scheme: dark;
   }
 }
@@ -58,7 +61,7 @@ button, input, select { font: inherit; color: inherit; }
 button { cursor: pointer; background: none; border: 0; padding: 0; }
 :focus-visible { outline: 2px solid var(--dark); outline-offset: 2px; }
 h1, h2 { margin: 0; }
-h2 { font-size: 17px; font-weight: 800; }
+h2 { font-size: 15px; font-weight: 800; }
 
 .ic { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .ic.sm { width: 16px; height: 16px; }
@@ -75,8 +78,8 @@ h2 { font-size: 17px; font-weight: 800; }
 
 /* ---- 品牌、头像 ---- */
 .brand { display: flex; align-items: center; gap: 12px; }
-.brand b { font-size: 19px; font-weight: 800; white-space: nowrap; }
-.brand-mark { width: 38px; height: 38px; flex: none; border-radius: 50%; display: grid; place-items: center; background: #e3f6cf; color: #0f3d24; }
+.brand b { font-size: 17px; font-weight: 800; white-space: nowrap; }
+.brand-mark { width: 34px; height: 34px; flex: none; border-radius: 50%; display: grid; place-items: center; background: #e3f6cf; color: #0f3d24; }
 .brand-mark .ic { stroke-width: 2.2; width: 21px; height: 21px; }
 .avatar {
   width: 38px; height: 38px; flex: none; border-radius: 50%; display: grid; place-items: center;
@@ -134,7 +137,7 @@ h2 { font-size: 17px; font-weight: 800; }
 .head-title { flex: 1; min-width: 0; }
 .head-tools { flex: none; }
 .lsum .mid { font-size: 19px; }
-.head-title h1 { font-size: 22px; font-weight: 800; line-height: 1.3; }
+.head-title h1 { font-size: 20px; font-weight: 800; line-height: 1.3; }
 .head-title p { margin: 0; font-size: 14px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .head-tools { display: flex; align-items: center; gap: 12px; }
 .search, .head-tools .btn.dark { display: none; }
@@ -151,7 +154,7 @@ h2 { font-size: 17px; font-weight: 800; }
 .view { display: flex; flex-direction: column; gap: 14px; }
 .card {
   min-width: 0; display: flex; flex-direction: column; gap: 10px;
-  padding: 18px; border-radius: var(--radius); background: var(--card); border: 1px solid var(--line);
+  padding: 16px; border-radius: var(--radius); background: var(--card); border: 1px solid var(--line);
 }
 .card-head { margin-bottom: 2px; }
 
@@ -207,7 +210,7 @@ h2 { font-size: 17px; font-weight: 800; }
 .link-text { font-size: 13px; font-weight: 600; color: var(--green); }
 button.link-text:hover, .month-card:hover .link-text { text-decoration: underline; }
 .month-net small, .month-split small, .month-top small { display: block; font-size: 12px; color: var(--faint); }
-.month-net b { font-size: 34px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+.month-net b { font-size: 28px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
 .month-net b.neg-text { color: var(--red); }
 .month-split { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 12px 0; border-top: 1px solid var(--soft-2); border-bottom: 1px solid var(--soft-2); }
 .month-split b { font-size: 17px; font-weight: 700; }
@@ -220,19 +223,43 @@ button.link-text:hover, .month-card:hover .link-text { text-decoration: underlin
 #home-recent .row-item:nth-child(n+7) { display: none; }
 
 /* 每天收支：收入在中线上方，支出在下方 */
-.month-daily { display: flex !important; flex-direction: column; min-height: 120px; }
-.daily { flex: 1; min-height: 90px; margin-top: 8px; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 2px; }
-.daily > span { display: grid; grid-template-rows: 1fr 1fr; }
-.daily .up, .daily .dn { display: flex; justify-content: center; }
-.daily .up { align-items: flex-end; border-bottom: 1px solid var(--line); }
-.daily .dn { align-items: flex-start; }
-.daily i { display: block; width: 70%; max-width: 10px; border-radius: 2px; }
-.daily .up i { background: var(--green-dot); }
-.daily .dn i { background: #b8c3bc; }
-.daily .future .up { border-bottom-style: dashed; }
-.daily-axis { display: flex !important; justify-content: space-between; margin-top: 4px; font-size: 11px; color: var(--faint); }
+.month-daily { display: flex !important; flex-direction: column; min-height: 150px; }
+.daily-head { display: flex !important; justify-content: space-between; align-items: center; }
+.ln { display: inline-block; width: 14px; height: 2px; border-radius: 1px; vertical-align: 3px; }
+.ln.inc { background: var(--line-inc); }
+.ln.exp { background: var(--line-exp); }
+
+/* 每天收支折线图：SVG 由 JS 按容器大小画，悬停显示十字线和提示 */
+.daily { position: relative; display: block !important; flex: 1; min-height: 130px; margin-top: 8px; touch-action: pan-y; }
+.daily svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.daily .grid { stroke: var(--soft-2); stroke-width: 1; }
+.daily .base { stroke: var(--line); stroke-width: 1; }
+.daily .tick { font-size: 11px; fill: var(--faint); font-family: var(--font); }
+.daily .end-label { font-size: 12px; font-weight: 600; fill: var(--muted); font-family: var(--font); }
+.daily .l { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.daily .l.inc { stroke: var(--line-inc); }
+.daily .l.exp { stroke: var(--line-exp); }
+.daily .end { stroke: var(--card); stroke-width: 2; }
+.daily .end.inc, .daily .dot.inc { fill: var(--line-inc); }
+.daily .end.exp, .daily .dot.exp { fill: var(--line-exp); }
+.daily .cross { stroke: var(--pale); stroke-width: 1; stroke-dasharray: 3 3; }
+.daily .dot { stroke: var(--card); stroke-width: 2; }
+.daily .hover { visibility: hidden; }
+.daily.hovering .hover { visibility: visible; }
+.daily-tip {
+  position: absolute; z-index: 2; pointer-events: none; min-width: 128px; padding: 8px 10px; border-radius: 10px;
+  background: var(--card); border: 1px solid var(--line); box-shadow: 0 6px 20px rgba(21, 36, 26, .12);
+  font-size: 12px; line-height: 1.6; color: var(--ink); text-align: left; visibility: hidden;
+}
+.daily.hovering .daily-tip { visibility: visible; }
+.daily-tip b { display: block; font-size: 12px; margin-bottom: 2px; }
+.daily-tip span { display: flex; align-items: center; gap: 6px; }
+.daily-tip span em { font-style: normal; margin-left: auto; padding-left: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 .ledger-side { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.lbottom { display: flex; flex-direction: column; gap: 14px; }
+.daily-card .daily { min-height: 180px; }
 .entries-side .mini-bars { margin-bottom: 6px; }
 .entries-side .mini-bars li { grid-template-columns: 5em 1fr auto; }
 #big-list .row-item:last-child { border-bottom: 0; }
@@ -346,10 +373,16 @@ button.link-text:hover, .month-card:hover .link-text { text-decoration: underlin
 .day .de .lbl { display: none; }
 .day .loss { position: absolute; top: 6px; right: 6px; width: 6px; height: 6px; border-radius: 50%; background: var(--red); }
 
+/* 当日盈利：放在收入、支出上面，字号大一档 */
+.day-profit { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 2px 2px 4px; }
+.day-profit span { font-size: 13px; color: var(--muted); }
+.day-profit b { font-size: 22px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; color: var(--green); }
+.day-profit.loss b { color: var(--red); }
+.day-profit.zero b { color: var(--pale); }
 .day-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 .tile { padding: 8px 12px; border-radius: 10px; background: var(--soft); min-width: 0; }
 .tile span { display: block; font-size: 12px; color: var(--muted); }
-.tile b { display: block; font-size: 17px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tile b { display: block; font-size: 15px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tile.inc { background: var(--inc-soft); }
 .tile.inc b { color: var(--green); }
 .sec-label { font-size: 13px; color: var(--faint); margin-top: 4px; }
@@ -461,7 +494,7 @@ button.link-text:hover, .month-card:hover .link-text { text-decoration: underlin
 @media (min-width: 1100px) {
   .shell { display: flex; min-height: 100dvh; }
   .side {
-    flex: none; width: 236px; display: flex; flex-direction: column; gap: 4px;
+    flex: none; width: 212px; display: flex; flex-direction: column; gap: 4px;
     position: sticky; top: 0; height: 100dvh; overflow-y: auto; padding: 22px 12px 18px;
     background: var(--side); border-right: 1px solid var(--line);
   }
@@ -473,8 +506,8 @@ button.link-text:hover, .month-card:hover .link-text { text-decoration: underlin
   .me-text { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.35; }
   .me-text b { font-weight: 600; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .me-text small { font-size: 12px; color: var(--faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .nav { display: flex; align-items: center; gap: 14px; width: 100%; height: 44px; flex: none; padding: 0 16px; border-radius: 12px; font-size: 15px; text-align: left; color: var(--ink); }
-  .nav .ic { width: 21px; height: 21px; }
+  .nav { display: flex; align-items: center; gap: 12px; width: 100%; height: 38px; flex: none; padding: 0 14px; border-radius: 10px; font-size: 14px; text-align: left; color: var(--ink); }
+  .nav .ic { width: 19px; height: 19px; }
   .nav:hover { background: var(--soft); }
   .nav.on { background: var(--nav-on); color: var(--dark); font-weight: 700; }
   .nav.soon { height: 34px; font-size: 13px; color: var(--faint); padding-left: 51px; }
@@ -482,7 +515,7 @@ button.link-text:hover, .month-card:hover .link-text { text-decoration: underlin
   .nav-group { font-size: 12px; color: var(--faint); padding: 12px 16px 2px; }
   .nav-bottom { margin-top: auto; border-top: 1px solid var(--line); border-radius: 0; padding-top: 4px; height: 52px; }
 
-  .main { flex: 1; padding: 20px 26px 28px; gap: 18px; }
+  .main { flex: 1; padding: 16px 22px 22px; gap: 14px; }
   /* 内容最宽 1600px，超宽屏两侧留边，不再把元素拉大 */
   .main > .head, .main > .view { width: 100%; max-width: 1600px; margin-inline: auto; }
   #view-entries:not([hidden]) { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; align-items: start; }
@@ -501,17 +534,24 @@ button.link-text:hover, .month-card:hover .link-text { text-decoration: underlin
   .month-card { grid-area: month; align-self: stretch; }
   .recent-card { grid-area: recent; align-self: stretch; }
   .soon-card { grid-area: soon; }
-  .today-num b { font-size: 84px; }
+  .today-num b { font-size: 68px; }
   .week-bars { height: 150px; }
-  .mid { font-size: 28px; }
+  .mid { font-size: 24px; }
 
   .lsum { flex-direction: row; align-items: center; gap: 16px; }
   .sum-strip { flex: 1; }
-  .lsum .mid { font-size: 26px; }
+  .lsum .mid { font-size: 22px; }
   .month-switch { align-self: center; }
-  .lbody { display: grid; grid-template-columns: minmax(0, 1fr) clamp(300px, 26vw, 380px); gap: 16px; align-items: start; }
-  .day { min-height: clamp(80px, 9vh, 104px); }
-  .day .di { font-size: 16px; }
+  .lbody { display: grid; grid-template-columns: minmax(0, 1fr) clamp(300px, 26vw, 380px); gap: 16px; align-items: stretch; }
+  /* 右栏不参与决定高度（contain: size），跟日历一样高；大额流水在卡片里滚动 */
+  /* 右栏不参与决定高度（contain: size），跟日历一样高；当天流水在卡片里滚动 */
+  .ledger-side { contain: size; overflow: hidden; }
+  .day-card { flex: 1; min-height: 0; }
+  .day-list { flex: 1; min-height: 0; overflow-y: auto; }
+  .day { min-height: 86px; }
+  .day .di { font-size: 15px; }
+  .lbottom { display: grid; grid-template-columns: minmax(0, 1fr) clamp(300px, 26vw, 380px); gap: 16px; align-items: stretch; }
+  #big-list { max-height: 360px; overflow-y: auto; }
 
 
   .cats-view { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 16px; }
@@ -536,9 +576,12 @@ button.link-text:hover, .month-card:hover .link-text { text-decoration: underlin
   .month-daily { flex: 1; }
 
   /* 收支日历：日历格平分高度，右侧详情同高 */
-  #view-ledger:not([hidden]) { flex: none; }
-  .day-list { max-height: 30vh; overflow-y: auto; }
-  #big-list { max-height: 44vh; overflow-y: auto; }
+  /* 日历格子保持正常大小；剩下的高度给下面的「每天收支」和「大额流水」 */
+  #view-ledger:not([hidden]) { display: flex; }
+  .lbottom { flex: 1; min-height: 280px; }
+  .lbottom > .card { min-height: 0; }
+  .daily-card .daily { flex: 1; min-height: 0; }
+  #big-list { flex: 1; min-height: 0; max-height: none; }
 
   #view-entries:not([hidden]) { flex: none; }
 

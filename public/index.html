@@ -140,9 +140,8 @@
             <span class="mini-bars" id="home-top3"></span>
           </span>
           <span class="month-daily">
-            <small>每天收支</small>
-            <span class="daily" id="home-daily" aria-hidden="true"></span>
-            <span class="daily-axis"><span>1日</span><span id="home-daily-mid"></span><span id="home-daily-end"></span></span>
+            <span class="daily-head"><small>每天收支</small><span class="legend"><span><i class="ln inc"></i>收入</span><span><i class="ln exp"></i>支出</span></span></span>
+            <span class="daily" id="home-daily"></span>
           </span>
         </button>
 
@@ -235,6 +234,7 @@
           <div class="ledger-side">
           <aside class="card day-card" id="day-card">
             <div class="title-line"><h2 id="day-date"></h2><span class="muted" id="day-week"></span></div>
+            <div class="day-profit" id="day-profit"><span id="day-net-label">当日盈利</span><b class="n" id="day-net"></b></div>
             <div class="day-tiles">
               <div class="tile inc"><span>当日收入</span><b class="n" id="day-inc"></b></div>
               <div class="tile"><span>当日支出</span><b class="n" id="day-exp"></b></div>
@@ -247,11 +247,18 @@
             </div>
             <button class="btn accent block" id="day-add"><svg class="ic"><use href="#i-plus"/></svg><span id="day-add-text">记一笔</span></button>
           </aside>
+          </div>
+        </div>
+        <!-- 日历下面：每天收支走势 + 本月大额流水，填满剩下的高度 -->
+        <div class="lbottom">
+          <div class="card daily-card">
+            <div class="row-between"><h2>每天收支</h2><span class="legend"><span><i class="ln inc"></i>收入</span><span><i class="ln exp"></i>支出</span></span></div>
+            <div class="daily" id="ledger-daily"></div>
+          </div>
           <div class="card big-card">
             <h2>本月大额流水</h2>
             <div id="big-list"></div>
           </div>
-        </div>
         </div>
       </section>
 

@@ -375,25 +375,119 @@ async function loadHome() {
 }
 
 // 本月每天的收入（中线上方）和支出（下方），收支两边用同一个比例
-function renderDaily(month, rows, hide) {
+// ---- 每天收支折线图（总览、收支日历共用）----
+// 两条线共用一个纵轴；还没到的日子不画；悬停显示十字线、两个点和提示
+const dailyCharts = {};
+function renderDaily(month, rows, hide, where = 'home') {
   const days = lastDay(month);
   const inc = new Array(days + 1).fill(0);
   const exp = new Array(days + 1).fill(0);
   for (const r of rows) (r.type === 'income' ? inc : exp)[Number(r.date.slice(8))] += r.amount;
-  const max = Math.max(1, ...inc, ...exp);
-  let html = '';
-  for (let d = 1; d <= days; d++) {
-    const date = `${month}-${String(d).padStart(2, '0')}`;
-    const tip = hide ? dayText(date) : `${dayText(date)}：收入 ${whole(inc[d])}，支出 ${whole(exp[d])}`;
-    html += `<span class="${date > state.today ? 'future' : ''}" title="${tip}">
-      <span class="up">${inc[d] ? `<i style="height:${(inc[d] / max) * 100}%"></i>` : ''}</span>
-      <span class="dn">${exp[d] ? `<i style="height:${(exp[d] / max) * 100}%"></i>` : ''}</span>
-    </span>`;
-  }
-  $('#home-daily').innerHTML = html;
-  $('#home-daily-mid').textContent = `${Math.ceil(days / 2)}日`;
-  $('#home-daily-end').textContent = `${days}日`;
+  // 画到哪一天：本月画到今天，以前的月份画满，以后的月份不画
+  const thisMonth = state.today.slice(0, 7);
+  const lastIdx = month < thisMonth ? days : month === thisMonth ? Number(state.today.slice(8)) : 0;
+  dailyCharts[where] = { month, days, inc, exp, lastIdx, hide };
+  drawDaily(where);
 }
+
+// 纵轴取整：最大值往上取到 1/2/2.5/5 × 10^n 的 4 等分
+function niceStep(maxYuan) {
+  const raw = Math.max(maxYuan, 100) / 4;
+  const pow = 10 ** Math.floor(Math.log10(raw));
+  return [1, 2, 2.5, 5, 10].map((m) => m * pow).find((st) => st >= raw);
+}
+const axisYuan = (y) => (y >= 10000 ? `${+(y / 10000).toFixed(1)}万` : fmt0.format(y));
+
+function drawDaily(where) {
+  const c = dailyCharts[where];
+  const el = $(`#${where}-daily`);
+  if (!c || !el) return;
+  const W = el.clientWidth;
+  const H = el.clientHeight;
+  if (W < 60 || H < 60) return;
+  const { month, days, inc, exp, lastIdx, hide } = c;
+  const maxYuan = Math.max(...inc.slice(1, lastIdx + 1), ...exp.slice(1, lastIdx + 1), 0) / 100;
+  const step = niceStep(maxYuan);
+  const top = step * 4;
+  const padL = hide ? 8 : 40;
+  const padR = 40;
+  const padT = 8;
+  const padB = 22;
+  const x = (d) => padL + ((d - 1) / Math.max(days - 1, 1)) * (W - padL - padR);
+  const y = (cents) => padT + (1 - cents / 100 / top) * (H - padT - padB);
+
+  let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${monthText(month)}每天收入和支出折线图">`;
+  // 横向网格和纵轴刻度
+  for (let k = 0; k <= 4; k++) {
+    const yy = Math.round(y(k * step * 100)) + 0.5;
+    svg += `<line class="${k ? 'grid' : 'base'}" x1="${padL}" x2="${W - padR}" y1="${yy}" y2="${yy}"/>`;
+    if (!hide) svg += `<text class="tick" x="${padL - 6}" y="${yy + 4}" text-anchor="end">${axisYuan(k * step)}</text>`;
+  }
+  // 横轴：1、5、10…和月底
+  const ticks = [...new Set([1, 5, 10, 15, 20, 25, days])].filter((d) => d === 1 || d === days || days - d >= 3);
+  for (const d of ticks) svg += `<text class="tick" x="${x(d)}" y="${H - 6}" text-anchor="middle">${d}日</text>`;
+
+  if (lastIdx >= 1) {
+    const path = (arr) => Array.from({ length: lastIdx }, (_, i) => `${i ? 'L' : 'M'}${x(i + 1).toFixed(1)} ${y(arr[i + 1]).toFixed(1)}`).join('');
+    svg += `<path class="l exp" d="${path(exp)}"/><path class="l inc" d="${path(inc)}"/>`;
+    // 线尾的点和名字：名字不压到横轴的日期上；两个名字挨得太近时，把上面那个往上推
+    const yi = y(inc[lastIdx]);
+    const ye = y(exp[lastIdx]);
+    const floor = H - padB - 8;
+    const labels = [{ t: '收入', y: Math.min(yi, floor) }, { t: '支出', y: Math.min(ye, floor) }].sort((p, q) => p.y - q.y);
+    if (labels[1].y - labels[0].y < 14) labels[0].y = labels[1].y - 14;
+    const xe = x(lastIdx);
+    svg += `<circle class="end exp" cx="${xe}" cy="${ye}" r="4"/><circle class="end inc" cx="${xe}" cy="${yi}" r="4"/>`;
+    for (const lb of labels) svg += `<text class="end-label" x="${xe + 8}" y="${lb.y + 4}">${lb.t}</text>`;
+    // 悬停层
+    svg += `<g class="hover"><line class="cross" x1="0" x2="0" y1="${padT}" y2="${H - padB}"/>
+      <circle class="dot exp" r="4.5"/><circle class="dot inc" r="4.5"/></g>`;
+  }
+  svg += '</svg>';
+
+  // 给读屏用的表格
+  let table = `<table class="sr-only"><caption>${monthText(month)}每天收支</caption><tr><th>日期</th><th>收入</th><th>支出</th></tr>`;
+  for (let d = 1; d <= lastIdx; d++) table += `<tr><td>${d}日</td><td>${hide ? '隐藏' : yuan(inc[d])}</td><td>${hide ? '隐藏' : yuan(exp[d])}</td></tr>`;
+  table += '</table>';
+  el.innerHTML = `${svg}<div class="daily-tip"></div>${table}`;
+
+  if (lastIdx < 1) return;
+  const g = el.querySelector('.hover');
+  const tip = el.querySelector('.daily-tip');
+  const move = (e) => {
+    const rect = el.getBoundingClientRect();
+    const px = e.clientX - rect.left;
+    const d = Math.min(lastIdx, Math.max(1, Math.round(((px - padL) / (W - padL - padR)) * (days - 1)) + 1));
+    const xx = x(d);
+    g.querySelector('.cross').setAttribute('x1', xx);
+    g.querySelector('.cross').setAttribute('x2', xx);
+    g.querySelector('.dot.inc').setAttribute('cx', xx);
+    g.querySelector('.dot.inc').setAttribute('cy', y(inc[d]));
+    g.querySelector('.dot.exp').setAttribute('cx', xx);
+    g.querySelector('.dot.exp').setAttribute('cy', y(exp[d]));
+    const date = `${month}-${String(d).padStart(2, '0')}`;
+    const v = (cents) => (hide ? '****' : `¥${yuan(cents)}`);
+    const net = inc[d] - exp[d];
+    tip.innerHTML = `<b>${dayText(date)} ${weekday(date)}</b>
+      <span><i class="ln inc"></i>收入<em>${v(inc[d])}</em></span>
+      <span><i class="ln exp"></i>支出<em>${v(exp[d])}</em></span>
+      <span>净收支<em>${hide ? '****' : money(net)}</em></span>`;
+    // 提示框放在十字线旁边，靠右时翻到左边
+    const tw = tip.offsetWidth || 140;
+    tip.style.left = `${xx + 12 + tw > W ? xx - 12 - tw : xx + 12}px`;
+    tip.style.top = `${padT}px`;
+    el.classList.add('hovering');
+  };
+  el.onpointermove = move;
+  el.onpointerdown = move;
+  el.onpointerleave = () => el.classList.remove('hovering');
+}
+
+// 容器大小变了（窗口缩放、切换页面）就按新尺寸重画
+const dailyObserver = new ResizeObserver((entries) => {
+  for (const en of entries) drawDaily(en.target.id.replace('-daily', ''));
+});
+['home-daily', 'ledger-daily'].forEach((id) => $(`#${id}`) && dailyObserver.observe($(`#${id}`)));
 
 function focusToday() {
   const f = state.focus;
@@ -784,7 +878,8 @@ async function loadLedger() {
   $('#big-list').innerHTML = big.length
     ? big.map((r) => rowHtml(r, { showDate: true })).join('')
     : `<p class="empty">${monthText(period)}还没有流水。</p>`;
-  afterMonthRender($('.lsum'), $('#cal'), $('#day-card'), $('#big-list'));
+  renderDaily(period, rows, false, 'ledger');
+  afterMonthRender($('.lsum'), $('#cal'), $('#day-card'), $('#big-list'), $('#ledger-daily'));
 }
 
 function renderCalendar() {
@@ -836,8 +931,16 @@ function renderDay() {
     .sort((a, b) => (a.type === b.type ? 0 : a.type === 'income' ? -1 : 1));
   $('#day-date').textContent = dayText(d);
   $('#day-week').textContent = `${weekday(d)}${d === state.today ? '，今天' : ''}`;
-  $('#day-inc').textContent = money(sum(rows, 'income'));
-  $('#day-exp').textContent = money(sum(rows, 'expense'));
+  const dayInc = sum(rows, 'income');
+  const dayExp = sum(rows, 'expense');
+  const net = dayInc - dayExp;
+  $('#day-inc').textContent = money(dayInc);
+  $('#day-exp').textContent = money(dayExp);
+  // 当日盈利：赚了绿色带 +，亏了标题改「当日亏损」显示红色，没流水灰色
+  $('#day-net-label').textContent = net < 0 ? '当日亏损' : '当日盈利';
+  $('#day-net').textContent = net > 0 ? `+${money(net)}` : money(net);
+  $('#day-profit').classList.toggle('loss', net < 0);
+  $('#day-profit').classList.toggle('zero', net === 0);
   $('#day-count').textContent = rows.length ? `当日流水 ${rows.length} 笔` : '当日流水';
   $('#day-list').innerHTML = rows.length
     ? rows.map((r) => rowHtml(r)).join('')
